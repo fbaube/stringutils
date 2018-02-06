@@ -2,7 +2,7 @@ package stringutils
 
 import S "strings"
 
-var theSuffix = "_gxml"
+// var theSuffix = "_gxml"
 
 // DirNameFromFileName is TBS. NO period on suffix !
 func DirNameFromFileName(path string, suffix string) (dirName string, usable bool) {
@@ -11,9 +11,9 @@ func DirNameFromFileName(path string, suffix string) (dirName string, usable boo
 		return path, false
 	}
 	// Is it already suffixed ?
-	if S.HasSuffix(path, theSuffix) {
+	if S.HasSuffix(path, suffix) {
 		return path, false
 	}
 	// Usual case
-	return path + theSuffix, true
+	return path + suffix, true
 }
