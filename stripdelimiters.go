@@ -50,3 +50,16 @@ func StripDelimiters(in string, delims string, must bool) (string, error) {
 	}
 	return in, nil
 }
+
+func StripQuotes(in string, must bool) (out string, success bool) {
+	in = S.TrimSpace(in)
+	out, _ = StripDelimiters(in, "'", false)
+	out, _ = StripDelimiters(out, "\"", false)
+	if len(in)-2 == len(out) {
+		return out, true
+	}
+	if must {
+		return out, false
+	}
+	return out, true
+}
