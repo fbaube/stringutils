@@ -2,7 +2,7 @@ package stringutils
 
 import S "strings"
 
-func InSlice(s string, ss []string) (int, bool) {
+func IsInSlice(s string, ss []string) (int, bool) {
 	if s == "" || ss == nil || len(ss) == 0 {
 		return -1, false
 	}
@@ -14,14 +14,14 @@ func InSlice(s string, ss []string) (int, bool) {
 	return -1, false
 }
 
-func InSliceIgnoreCase(s string, ss []string) (int, bool) {
+func IsInSliceIgnoreCase(s string, ss []string) bool {
 	if s == "" || ss == nil || len(ss) == 0 {
-		return -1, false
+		return false
 	}
-	for i, tmp := range ss {
+	for _, tmp := range ss {
 		if S.EqualFold(s, tmp) {
-			return i, true
+			return true
 		}
 	}
-	return -1, false
+	return false
 }
