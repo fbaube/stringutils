@@ -9,3 +9,9 @@ func DeleteEmptyStrings(in []string) (out []string) {
 	}
 	return
 }
+
+func Enslice(in string) []string {
+	out := make([]string, 0)
+	out = append(out, in)
+	return out
+}
