@@ -12,7 +12,7 @@ func ConcatAll(values ...string) string {
 }
 
 // ConcatAllSpaced concatenates all its arguments into
-// a new string, with spaces inserted in-between-'em.
+// a new string, with spaces inserted in-between 'em.
 func ConcatAllSpaced(values ...string) string {
 	var bb bytes.Buffer
 	for _, s := range values {
@@ -20,5 +20,5 @@ func ConcatAllSpaced(values ...string) string {
 		bb.WriteString(" ")
 	}
 	s := bb.String()
-	return s[:len(s)-1] // sweeet
+	return s[:len(s)-1] // sweeeet
 }

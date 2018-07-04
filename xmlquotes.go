@@ -5,14 +5,14 @@ import (
 	S "strings"
 )
 
-// IsXmlQuote checks for both single quote and double quote,
-// cos XML uses them equivalently.
+// IsXmlQuote checks whether the string is either one single quote
+// *or* one double quote.
 func IsXmlQuote(s string) bool {
 	return s == "\"" || s == "'"
 }
 
-// IsXmlQuoted handles both single quotes and double quotes,
-// cos XML uses them equivalently.
+// IsXmlQuoted checks whether the string is surrounded by either
+// single quotes *or* double quotes.
 func IsXmlQuoted(txt string) bool {
 	L := len(txt)
 	if L < 2 {
@@ -25,8 +25,8 @@ func IsXmlQuoted(txt string) bool {
 	return (char0 == string(txt[L-1]))
 }
 
-// MustXmlUnquote removed either single quotes or double quotes,
-// cos XML uses them equivalently.
+// MustXmlUnquote removes either paired single quotes or paired double
+// quotes. It panics if neither is found.
 func MustXmlUnquote(txt string) string {
 	if !IsXmlQuoted(txt) {
 		panic(fmt.Sprintf("stringutils.MustXmlUnquote<%s>", txt))
@@ -34,8 +34,8 @@ func MustXmlUnquote(txt string) string {
 	return txt[1 : len(txt)-1]
 }
 
-// NormalizeWhitespace replaces weird
-// whitespace crap (incl. newlines) with spaces.
+// NormalizeWhitespace replaces weird whitespace junk
+// (including newlines) with spaces.
 func NormalizeWhitespace(s string) string {
 	return S.Join(S.Fields(s), " ")
 }

@@ -1,5 +1,6 @@
 package stringutils
 
+// DeleteEmptyStrings returns the slice with any empty strings omitted.
 func DeleteEmptyStrings(in []string) (out []string) {
 	for _, s := range in {
 		if s == "" {
@@ -10,6 +11,7 @@ func DeleteEmptyStrings(in []string) (out []string) {
 	return
 }
 
+// Enslice turns the string into a string slice of length 1.
 func Enslice(in string) []string {
 	out := make([]string, 0)
 	out = append(out, in)

@@ -5,16 +5,19 @@ import (
 	S "strings"
 )
 
-// StripDelimiters tries to remove matching characters from both
-// ends of the input string; "must"==true makes it mandatory.
+// StripDelimiters tries to remove corresponding characters from
+// both ends of the input string; `must`==`true` makes it mandatory.
 // From the resulting string, surrounding spaces get trimmed.
-// It returns a slice of the input string, not a new string.
-// If "must"==false, an error is returned iff the arguments were bad.
 //
-// If "delimiters" is a single character (like a single or double quote),
+// If `must`==`true`, it returns an error if the delimiters are not found.
+// If `must`==`false`, an error is returned *iff* an argument was bad.
+//
+// About the meaning of "corresponding":
+// If `delimiters` is a single character (like a single or double quote),
 // it tries to remove that character from both ends of the input string.
-// If "delimiters" is two characters (like parentheses, braces, brackets),
-// the ends of the input string are treated differently.
+// If `delimiters` is two characters (like parentheses, braces, brackets),
+// they are assumed to form a left/right pair, and so the ends of the
+// input string are treated differently.
 func StripDelimiters(in string, delims string, must bool) (string, error) {
 
 	in = S.TrimSpace(in)
@@ -51,6 +54,9 @@ func StripDelimiters(in string, delims string, must bool) (string, error) {
 	return in, nil
 }
 
+// StripQuotes tries to strip off matching XML quotes (i.e. either single
+// or double quotes). `success` indicates whether matching quotes were
+// found, and `must` makes the function fail if they are not found.
 func StripQuotes(in string, must bool) (out string, success bool) {
 	in = S.TrimSpace(in)
 	out, _ = StripDelimiters(in, "'", false)

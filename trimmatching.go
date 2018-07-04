@@ -4,6 +4,9 @@ import (
 	"fmt"
 )
 
+// TrimMatchingQuotes tries to strip off matching XML quotes (i.e. either
+// single or double quotes). It is basically a simpliied version of
+// `StripQuotes(..)`.
 func TrimMatchingQuotes(s string) (string, error) {
 	s2, e := TrimMatchingDelims(s, "'")
 	if e == nil {
@@ -16,6 +19,8 @@ func TrimMatchingQuotes(s string) (string, error) {
 	return s, fmt.Errorf("No quotes around |%s|", s)
 }
 
+// TrimMatchingDelims tried to strip off matching first and last characters.
+// It is basically a simplified version of `StripDelimiters(..)`.
 func TrimMatchingDelims(txt string, delim string) (string, error) {
 	L := len(txt)
 	if L < 2 || len(delim) != 1 {

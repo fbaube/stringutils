@@ -4,7 +4,7 @@ import S "strings"
 
 // var theSuffix = "_gxml"
 
-// DirNameFromFileName is TBS. NO period on suffix !
+// DirNameFromFileName has docu TBS. NO period on suffix !
 func DirNameFromFileName(path string, suffix string) (dirName string, usable bool) {
 	// Even bother ?
 	if S.HasPrefix(path, ".") || S.HasSuffix(path, "~") || suffix == "" {
