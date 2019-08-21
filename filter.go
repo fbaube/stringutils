@@ -1,7 +1,7 @@
 package stringutils
 
 import (
-	fp "path/filepath"
+	FP "path/filepath"
 )
 
 // FilterStringsBySuffix is TBS.
@@ -15,7 +15,7 @@ func FilterStringsBySuffix(inputs []string,
 	}
 	OKoutputs = make([]string, 0, len(inputs))
 	for _, instring := range inputs {
-		sfx := fp.Ext(instring)
+		sfx := FP.Ext(instring)
 		if IsInSliceIgnoreCase(sfx, okayExts) {
 			OKoutputs = append(OKoutputs, instring)
 		}
