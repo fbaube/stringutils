@@ -6,14 +6,20 @@ import (
 	"github.com/fatih/color"
 )
 
-var R, Y, G func(...interface{}) string
+var Rbg, Ybg, Gbg, Rfg, Yfg, Gfg func(...interface{}) string
 
 func init() {
 	// Create SprintXxx functions to mix strings
 	// with other non-colorized strings:
-	G = color.New(color.BgHiGreen).SprintFunc()
-	Y = color.New(color.BgHiYellow).SprintFunc()
-	R = color.New(color.FgWhite).Add(color.BgRed).Add(color.Bold).SprintFunc()
-	fmt.Printf("mu.colors.init: %s %s %s \n",
-		G("Okay"), Y("Warn"), R("ERR!"))
+	Gbg = color.New(color.BgHiGreen).SprintFunc()
+	Ybg = color.New(color.BgHiYellow).SprintFunc()
+	Rbg = color.New(color.BgHiRed).SprintFunc()
+	Gfg = color.New(color.FgHiGreen).Add(color.Bold).SprintFunc()
+	Yfg = color.New(color.FgHiYellow).Add(color.Bold).SprintFunc()
+	Rfg = color.New(color.FgHiRed).Add(color.Bold).SprintFunc()
+
+	Rfg = color.New(color.FgRed).Add(color.Bold).SprintFunc()
+	fmt.Printf("su.colors.init: \n (bg) %s %s %s \n (fg) %s %s %s \n",
+		Gbg(" Okay "), Ybg(" Warn "), Rbg(" Err! "),
+		Gfg(" Okay "), Yfg(" Warn "), Rfg(" Err! "))
 }
