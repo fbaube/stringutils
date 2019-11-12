@@ -20,6 +20,6 @@ func init() {
 
 	Rfg = color.New(color.FgRed).Add(color.Bold).SprintFunc()
 	fmt.Printf("su.colors.init: \n (bg) %s %s %s \n (fg) %s %s %s \n",
-		Gbg(" Okay "), Ybg(" Warn "), Rbg(" Err! "),
-		Gfg(" Okay "), Yfg(" Warn "), Rfg(" Err! "))
+		Gbg(" Gbg:Okay "), Ybg(" Ybg:Warn "), Rbg(" Rbg:Err! "),
+		Gfg(" Gfg:Okay "), Yfg(" Yfg:Warn "), Rfg(" Rfg:Err! "))
 }
