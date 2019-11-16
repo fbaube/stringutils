@@ -81,3 +81,39 @@ func GetYamlMetadata(instr string) (*YamlMeta, string, error) {
 	fmt.Printf("YamlMeta: %+v \n", *YM)
 	return YM, nonYMBretval, nil
 }
+
+func (p *YamlMeta) AsMap() map[string]string {
+  m := make(map[string]string)
+  // Grunt work
+  if p.Author != "" {
+    m["author"] = p.Author
+  }
+  if p.Source != "" {
+    m["source"] = p.Source
+  }
+  if p.Publisher != "" {
+    m["publisher"] = p.Publisher
+  }
+  if p.Permissions != "" {
+    m["permissions"] = p.Permissions
+  }
+  if p.Audience != "" {
+    m["audience"] = p.Audience
+  }
+  if p.Category != "" {
+    m["category"] = p.Category
+  }
+  if p.Keyword != "" {
+    m["keyword"] = p.Keyword
+  }
+  if p.Resourceid != "" {
+    m["resourceid"] = p.Resourceid
+  }
+  if p.ID != "" {
+    m["id"] = p.ID
+  }
+  if p.Title != "" {
+    m["title"] = p.Title
+  }
+  return m
+}
