@@ -3,6 +3,7 @@ package stringutils
 import (
   "fmt"
   S "strings"
+  "time"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -19,9 +20,15 @@ type YamlMeta struct {
   Category    string
   Keyword     string
   Resourceid  string
+  // Bloggenator...
+  // type Meta struct {
+  Title      string
+  Short      string
+  Tags       []string
+  Date       string
+  ParsedDate time.Time
   // Others ...
 	ID    string
-  Title string
 }
 
 // GetYamlMeta tries to extract a YAML metadata block (YMB) - as a
@@ -49,7 +56,7 @@ type YamlMeta struct {
 //
 // #3 is overkill at the nmment, and #1 is used.
 //
-func GetYamlMetadata(instr string) (*YamlMeta, string, error) {
+func GetYamlMetadata(instr string) (map[string]interface{}, string, error) {
   hasDelim := S.HasPrefix(instr, "---")
   // The YAML markers are "---" (at start of line) for both START end END.
   // So, if the content does NOT start with the YAML-metadata START marker...
@@ -75,45 +82,24 @@ func GetYamlMetadata(instr string) (*YamlMeta, string, error) {
      nonYMBretval = instr[idx3+1:]
    }
   // raw now contains what we want. Let's VERIFY.
-	println("=== v YAML? v ===\n", rawYMB, "\n=== ^ YAML? ^ ===")
-	YM := new(YamlMeta)
-	yaml.Unmarshal([]byte(rawYMB), YM)
-	fmt.Printf("YamlMeta: %+v \n", *YM)
-	return YM, nonYMBretval, nil
-}
-
-func (p *YamlMeta) AsMap() map[string]string {
-  m := make(map[string]string)
-  // Grunt work
-  if p.Author != "" {
-    m["author"] = p.Author
-  }
-  if p.Source != "" {
-    m["source"] = p.Source
-  }
-  if p.Publisher != "" {
-    m["publisher"] = p.Publisher
-  }
-  if p.Permissions != "" {
-    m["permissions"] = p.Permissions
-  }
-  if p.Audience != "" {
-    m["audience"] = p.Audience
-  }
-  if p.Category != "" {
-    m["category"] = p.Category
-  }
-  if p.Keyword != "" {
-    m["keyword"] = p.Keyword
-  }
-  if p.Resourceid != "" {
-    m["resourceid"] = p.Resourceid
-  }
-  if p.ID != "" {
-    m["id"] = p.ID
-  }
-  if p.Title != "" {
-    m["title"] = p.Title
-  }
-  return m
+	println("=== YAML? ===\n" +
+          "vvv       vvv\n",
+          rawYMB,
+          "\n^^^       ^^^\n" +
+          "=== YAML? ===")
+	// YM := new(YamlMeta)
+  // func Unmarshal(in []byte, out interface{}) (err error) <br/>
+  // Unmarshal decodes the first document found within the in
+  // byte slice and assigns decoded values into the out value.
+  // Maps and ptrs (to a struct, string, int, etc) are accepted as out
+  // values. If an internal ptr within a struct is not initialized, the
+  // yaml package will initialize it if necessary for unmarshalling the
+  // provided data. The out parameter must not be nil.
+	// yaml.Unmarshal([]byte(rawYMB), YM)
+	// fmt.Printf("YamlMeta: %+v \n", *YM)
+  YMmap := make(map[string]interface{})
+  // YMmap := make(map[interface{}]interface{})
+  yaml.Unmarshal([]byte(rawYMB), YMmap)
+	fmt.Printf("YamlMetaMap: %+v \n", YMmap)
+	return YMmap, nonYMBretval, nil
 }
