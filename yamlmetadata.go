@@ -130,9 +130,8 @@ func GetYamlMetadata(instr string) (map[string]interface{}, string, error) {
      nonYMBretval = instr[idx3+1:]
    }
   // raw now contains what we want. Let's VERIFY.
-	println("==v YAML? v==\n",
-          rawYMB,
-          "==^ YAML? ==")
+	// println("==v YAML? v==\n", rawYMB, "==^ YAML? ==")
+  
   // func Unmarshal(in []byte, out interface{}) (err error) <br/>
   // Unmarshal decodes the first document found within the byte
   // slice and assigns decoded values into the out value. Maps and
