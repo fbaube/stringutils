@@ -17,3 +17,10 @@ func Enslice(in string) []string {
 	out = append(out, in)
 	return out
 }
+
+func TruncateTo(in string, outmaxlen int) string {
+	if len(in) <= outmaxlen {
+		return in
+	}
+	return in[:outmaxlen-3] + "..."
+}
