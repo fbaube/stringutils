@@ -17,9 +17,14 @@ func init() {
 	Gfg = color.New(color.FgHiGreen).Add(color.Bold).SprintFunc()
 	Yfg = color.New(color.FgHiYellow).Add(color.Bold).SprintFunc()
 	Rfg = color.New(color.FgHiRed).Add(color.Bold).SprintFunc()
-
 	Rfg = color.New(color.FgRed).Add(color.Bold).SprintFunc()
-	fmt.Printf("su.colors.init: \n (bg) %s %s %s \n (fg) %s %s %s \n",
-		Gbg(" Gbg:Okay "), Ybg(" Ybg:Warn "), Rbg(" Rbg:Err! "),
-		Gfg(" Gfg:Okay "), Yfg(" Yfg:Warn "), Rfg(" Rfg:Err! "))
+}
+
+func ColorDemo() {
+	fmt.Printf("stringutils.ColorDemo: \n      %s         %s         %s \n" +
+		" %s \n      %s         %s         %s \n %s \n",
+		 Gbg (" Gbg:Okay "),  Ybg( " Ybg:Warn "),  Rbg( " Rbg:Err! "),
+		"Gbg(\" Gbg:Okay \"), Ybg(\" Ybg:Warn \"), Rbg(\" Rbg:Err! \")",
+		 Gfg( " Gfg:Okay "),  Yfg( " Yfg:Warn "),  Rfg( " Rfg:Err! "),
+		"Gfg(\" Gfg:Okay \"), Yfg(\" Yfg:Warn \"), Rfg(\" Rfg:Err! \")")
 }
