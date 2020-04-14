@@ -8,6 +8,7 @@ import (
 
 type PropSet map[string]string
 
+// YamlMapAsPropSet returns a PropSet, i.e. a map[string]string
 func YamlMapAsPropSet(u map[interface{}]interface{}) (ps PropSet) {
   ps = make(map[string]string)
   for k,v := range u {

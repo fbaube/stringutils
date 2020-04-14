@@ -2,7 +2,8 @@ package stringutils
 
 import "bytes"
 
-// ConcatAll concatenates all its arguments into a new string.
+// ConcatAll concatenates all its (vargs) arguments into a new string.
+// It uses a bytes.Buffer for efficiency.
 func ConcatAll(values ...string) string {
 	var bb bytes.Buffer
 	for _, s := range values {
@@ -11,8 +12,9 @@ func ConcatAll(values ...string) string {
 	return bb.String()
 }
 
-// ConcatAllSpaced concatenates all its arguments into
-// a new string, with spaces inserted in-between 'em.
+// ConcatAllSpaced concatenates all its (vargs) arguments
+// into a new string, with spaces inserted in-between 'em.
+// It uses a bytes.Buffer for efficiency. 
 func ConcatAllSpaced(values ...string) string {
 	var bb bytes.Buffer
 	for _, s := range values {

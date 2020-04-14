@@ -18,6 +18,7 @@ func Enslice(in string) []string {
 	return out
 }
 
+// TruncateTo truncates & ends the string with triple dots if it's too long.
 func TruncateTo(in string, outmaxlen int) string {
 	if len(in) <= outmaxlen {
 		return in

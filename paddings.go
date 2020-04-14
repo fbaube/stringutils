@@ -1,10 +1,11 @@
 package stringutils
 
-// IndentationPrefix is a TODO: make it configurable!
+// IndentationPrefix is for all sorts of output.
+// TODO: Make it configurable.
 var IndentationPrefix = "  "
 
-// PadLeftToLen adds leading `pad` characters to hit the target length. <br/>
-// Example: A new string 5 characters long, left-padded with spaces: <br/>
+// PadLeftToLen adds leading `pad` characters to hit the target length.
+// Example: A new string 5 characters long, left-padded with spaces:
 //   fmt.Println(PadLeftToLen("12", " ", 5))    // yields "   12"
 func PadLeftToLen(str, pad string, lingth int) string {
 	for {
@@ -26,8 +27,8 @@ func AddIndent(in string, indentString string, nr int) string {
 	return in
 }
 
-// PadRightToLen adds trailing `pad` characters to hit the target
-// length. <br/>
+// PadRightToLen adds trailing `pad` characters to hit the target length. 
+//
 // Example: A new string 5 characters long, right-padded with zeros:
 //   fmt.Println(PadRightToLen("12.", "0", 5))    // yields "12.00"
 func PadRightToLen(str, pad string, lingth int) string {

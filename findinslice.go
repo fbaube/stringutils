@@ -2,8 +2,8 @@ package stringutils
 
 import S "strings"
 
-// IsInSlice returns (`i,true`) if the string is found in the slice
-// (or an argument is bad). It returns (`-1,false`) if not found.)
+// IsInSlice returns (`i,true`) if the string is found in the slice.
+// It returns (`-1,false`) if not found (or an argument is bad). 
 func IsInSlice(s string, ss []string) (int, bool) {
 	if s == "" || ss == nil || len(ss) == 0 {
 		return -1, false
