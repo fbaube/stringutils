@@ -1,7 +1,7 @@
 package stringutils
 
 // IndentationPrefix is for all sorts of output.
-// TODO: Make it configurable.
+// TODO Make it configurable.
 var IndentationPrefix = "  "
 
 // PadLeftToLen adds leading `pad` characters to hit the target length.
