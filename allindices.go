@@ -1,7 +1,6 @@
 package stringutils
 
 import (
-	"fmt"
 	S "strings"
 )
 
@@ -12,12 +11,12 @@ func AllIndices(in string, ch string) []int {
 	if in == "" {
 		return nil
 	}
-	fmt.Printf("AllIndices: in<%s> ch<%s> \n", in, ch)
+	// fmt.Printf("AllIndices: in<%s> ch<%s> \n", in, ch)
 	var length, idxToStart int
 	var idcs []int
 	for true {
 		length = S.Index(in[idxToStart:], ch)
-		fmt.Printf("idx: %v \n", length)
+		// fmt.Printf("idx: %v \n", length)
 		if length == -1 {
 			return idcs
 		}
