@@ -1,9 +1,11 @@
 package stringutils
 
 import (
-  "fmt"
-  S "strings"
-  "strconv"
+	"errors"
+	"fmt"
+	"strconv"
+	S "strings"
+
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -35,36 +37,38 @@ type YamlMeta struct {
 
 // GetYamlMetadataAsPropSet is a convenience function. It assume that all
 // the metadata values are top-level and can be represented as strings.
-func GetYamlMetadataAsPropSet(instr string) (PropSet, string, error) {
-  m, s, e := GetYamlMetadata(instr)
-  // fmt.Printf("Yaml-map 4ps: %+v (err?:%t) \n", m, e != nil)
-  if e != nil {
-    return nil, instr, e
-  }
-  var ps PropSet
-  ps = make(PropSet, 0)
-  // Convert the values
-  for kk,v := range m {
-    k := S.ToLower(kk)
-    // println("GOT:", k)
-    switch vtyped := v.(type) {
-    case string:
-      ps[k] = vtyped
-    case bool:
-      ps[k] = strconv.FormatBool(vtyped)
-    case int:
-      i64 := int64(vtyped)
-      ps[k] = strconv.FormatInt(i64, 10)
-    case float32:
-      f64 := float64(vtyped)
-      ps[k] = strconv.FormatFloat(f64, 'f', -1, 32)
-    case float64:
-      ps[k] = strconv.FormatFloat(vtyped, 'f', -1, 64)
-    default:
-      panic(fmt.Sprintf("GetYamlMetadataAsPropSet: type<%T> (date?) \n", v))
-    }
-  }
-  return ps, s, nil
+// The metadata is unmarshalled into a map (i.e. a `PropSet`), so variables
+// can be freely added, but there is no checking for required fields.
+//
+func GetYamlMetadataAsPropSet(instr string) (PropSet, error) {
+	propmap, e := ParseYamlMetadata(instr)
+	if e != nil {
+		return nil, fmt.Errorf("yaml propset: %w", e)
+	}
+	var ps PropSet
+	ps = make(PropSet, 0)
+	// Convert all the values to strings
+	for kk, v := range propmap {
+		k := S.ToLower(kk)
+		// println("D=> yaml got:", k)
+		switch vtyped := v.(type) {
+		case string:
+			ps[k] = vtyped
+		case bool:
+			ps[k] = strconv.FormatBool(vtyped)
+		case int:
+			i64 := int64(vtyped)
+			ps[k] = strconv.FormatInt(i64, 10)
+		case float32:
+			f64 := float64(vtyped)
+			ps[k] = strconv.FormatFloat(f64, 'f', -1, 32)
+		case float64:
+			ps[k] = strconv.FormatFloat(vtyped, 'f', -1, 64)
+		default:
+			panic(fmt.Sprintf("GetYamlMetadataAsPropSet: type<%T> (date?) \n", v))
+		}
+	}
+	return ps, nil
 }
 
 // https://pandoc.org/MANUAL.html#extension-yaml_metadata_block
@@ -78,66 +82,70 @@ func GetYamlMetadataAsPropSet(instr string) (PropSet, string, error) {
 // A document may contain multiple metadata blocks. If two metadata blocks
 // attempt to set the same field, the value from the second block will be taken.
 
-// GetYamlMetadata tries to extract a YAML metadata block (YMB) - as a map -
-// from the (start of the) input string `instring`. There are three cases:
+// ParseYamlMetadata tries to extract a YAML metadata block (YMB) - as a map -
+// from the (start of the) input string `instring`.
 //
-// If a serious error is encountered in either of the following two
-// other cases, the function returns `(nil, instring, the-error)`.
+// Only simple fields are supported - no tree structure.
 //
-// If the input string does NOT begin with a "---" delimiter
-// line, then the entire input string is assumed to contain
-// the YMB, and the function returns `(aMap, "", nil)`.
-//
-// If the input begins with an opening "---" delimiter line AND
-// also has a matching closing "---" delimiter line - as in LwDITA
-// - then the section between them is assumed to contain the YMB,
-// and the YMB is trimmed from the input string, and the function
-// returns `(aMap, instring-with-YMB-removed, nil)`.
-//
-// Note that there are basically three ways we could go about doing this:
-// 1) Use simple decoding to extract a few supported fields (including of
-// course those used by LwDITA MDATA-XP).
-// 2) Write something to extract top-level (only) fields (maybe using regex's).
-// 3) Use a third-party library to extract a proper tree structure.
-//
-// #3 is overkill at the nmment, and #1 is used.
-//
-func GetYamlMetadata(instr string) (map[string]interface{}, string, error) {
-  hasDelim := S.HasPrefix(instr, "---")
-  // The YAML markers are "---" (at start of line) for both START end END.
-  // So, if the content does NOT start with the YAML-metadata START marker...
-  if hasDelim && !S.Contains(instr, "\n") {
-    return nil, instr, fmt.Errorf("yaml: unterminated opening line")
-  }
-  var rawYMB, nonYMBretval string
-  rawYMB = instr
-  nonYMBretval = ""
-  // If no delmiters, this entire large block is skipped.
-  if hasDelim {
-	   // The end of the line of the START marker
-	   idx1 := S.Index(instr, "\n")
-	   // The END marker
-	   idx2tmp := S.Index(instr[idx1+2:], "\n---")
-     idx2 := idx2tmp + (idx1+2)
-     // The end of the line of the END marker
-     idx3tmp := S.Index(instr[idx2+2:], "\n")
-     idx3 := idx3tmp + (idx2+2)
-	   // If no end marker, or no end of line of end-marker, reject.
-	   if idx2tmp == -1 || idx3tmp == -1 {
-		    return nil, "", fmt.Errorf("yaml: bad or missing end marker")
-	   }
-	   rawYMB = instr[idx1+1 : idx2+1]
-     nonYMBretval = instr[idx3+1:]
-   }
-  // raw now contains what we want. Let's VERIFY.
-	// println("==v YAML? v==\n", rawYMB, "==^ YAML? ==")
-  
-  // func Unmarshal(in []byte, out interface{}) (err error) <br/>
-  // Unmarshal decodes the first document found within the byte
-  // slice and assigns decoded values into the out value. Maps and
-  // ptrs (to a struct, string, int, etc) are accepted as out values.
-  YMmap := make(map[string]interface{})
-  yaml.Unmarshal([]byte(rawYMB), YMmap)
-	// fmt.Printf("GetYamlMetadata: unmarshal'd YamlMetaMap: %+v \n", YMmap)
-	return YMmap, nonYMBretval, nil
+func ParseYamlMetadata(instr string) (map[string]interface{}, error) {
+	// func Unmarshal(in []byte, out interface{}) (err error) <br/>
+	// Unmarshal decodes the first document found within the byte
+	// slice and assigns decoded values into the out value. Maps and
+	// ptrs (to a struct, string, int, etc) are accepted as out values.
+	YMmap := make(map[string]interface{})
+	e := yaml.Unmarshal([]byte(instr), YMmap)
+	if e != nil {
+		return nil, fmt.Errorf("yaml parse: %w", e)
+	}
+	fmt.Printf("ParseYamlMetadata: unmarshal'd YamlMetaMap: %+v \n", YMmap)
+	return YMmap, nil
+}
+
+// YamlMetadataHeaderLength assumes "---" AT THE START to open the block,
+// and "---" (but not "...") at the start of a new line to end the block.
+func YamlMetadataHeaderLength(s string) (int, error) {
+	// println("D=> TRY YAML \n", s, "D=> END YAML")
+	if !S.HasPrefix(s, "---") {
+		return 0, nil
+	}
+	if !S.Contains(s, "\n") {
+		return 0, errors.New("yaml: unterminated opening line")
+	}
+	// The end of the line of the START marker
+	idxBegEOL := S.Index(s, "\n")
+	// fmt.Printf("idxBegEOL %d \n", idxBegEOL)
+	// The END marker (can be the very next line!)
+	idxEnd := S.Index(s[idxBegEOL:], "\n---")
+	// If no end marker, reject.
+	if idxEnd == -1 {
+		return 0, errors.New("yaml: bad or missing end marker")
+	}
+	idxEnd += idxBegEOL
+	// fmt.Printf("idxEnd %d \n", idxEnd)
+
+	// The end of the line of the END marker
+	idxEndEOL := S.Index(s[idxEnd+1:], "\n")
+	// If no end of line of end-marker, reject.
+	if idxEndEOL == -1 {
+		return 0, errors.New("yaml: unterminated end marker")
+	}
+	idxEndEOL += idxEnd + 1
+	// fmt.Printf("idxEndEOL %d \n", idxEndEOL)
+
+	// We now have the index of end of the block.
+	// But if the next line is empty, include it also.
+	if s[idxEndEOL+1] == '\n' {
+		idxEndEOL++
+	}
+	// Let's VERIFY.
+	// println("D=> BEG YAML \n", s[:idxEndEOL], "D=> END YAML")
+
+	return idxEndEOL, nil
+}
+
+func TrimYamlMetadataDelimiters(s string) string {
+	s = S.TrimSpace(s)
+	s = S.TrimPrefix(s, "---")
+	s = S.TrimSuffix(s, "---")
+	return S.TrimSpace(s) + "\n"
 }
