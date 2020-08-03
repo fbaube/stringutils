@@ -97,7 +97,7 @@ func ParseYamlMetadata(instr string) (map[string]interface{}, error) {
 	if e != nil {
 		return nil, fmt.Errorf("yaml parse: %w", e)
 	}
-	fmt.Printf("ParseYamlMetadata: unmarshal'd YamlMetaMap: %+v \n", YMmap)
+	fmt.Printf("D=> ParseYamlMetadata: %+v \n", YMmap)
 	return YMmap, nil
 }
 
