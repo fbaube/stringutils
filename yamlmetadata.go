@@ -10,9 +10,10 @@ import (
 )
 
 /*
-// OBSOLETE: YamlMeta extracts metadata per LwDITA, see
-// https://github.com/jelovirt/org.lwdita/wiki/Syntax-reference ,
-// plus a few other fields expected to be useful.
+YamlMeta extracts metadata per LwDITA, see
+https://github.com/jelovirt/org.lwdita/wiki/Syntax-reference
+Fields expected to be useful:
+
 type YamlMeta struct {
   // LwDITA...
 	Author      string
