@@ -16,7 +16,7 @@ Fields expected to be useful:
 
 type YamlMeta struct {
   // LwDITA...
-	Author      string
+  Author      string
   Source      string
   Publisher   string
   Permissions string
@@ -48,7 +48,7 @@ func GetYamlMetadataAsPropSet(instr string) (PropSet, error) {
 	}
 	var ps PropSet
 	ps = make(PropSet, 0)
-	// Convert all the values to strings
+	// Convert all keys to lower case and all values to strings
 	for kk, v := range propmap {
 		k := S.ToLower(kk)
 		// println("D=> yaml got:", k)
@@ -96,57 +96,71 @@ func ParseYamlMetadata(instr string) (map[string]interface{}, error) {
 	YMmap := make(map[string]interface{})
 	e := yaml.Unmarshal([]byte(instr), YMmap)
 	if e != nil {
-		return nil, fmt.Errorf("yaml parse: %w", e)
+		return nil, fmt.Errorf("parsing YAML: %w", e)
 	}
 	fmt.Printf("D=> ParseYamlMetadata: %+v \n", YMmap)
 	return YMmap, nil
 }
 
-// YamlMetadataHeaderLength assumes "---" AT THE START to open the block,
-// and "---" (but not "...") at the start of a new line to end the block.
-func YamlMetadataHeaderLength(s string) (int, error) {
+// YamlMetadataHeaderRange wants "---" at the start of the file at
+// the start of a line (maybe after whitespace) to open the block,
+// and "---" or "..." at the start of a new line to end the block.
+// NOTE tho that the leading whitespace should already be trimmed away.
+func YamlMetadataHeaderRange(s string) (int, error) {
+	// Beg = opening delimiter, End = closing delimiter
+	var idxBegEOL, idxEndHifens, idxEndDots, idxEnd, idxEndEOL int
+
 	// println("D=> TRY YAML \n", s, "D=> END YAML")
 	if !S.HasPrefix(s, "---") {
 		return 0, nil
 	}
 	if !S.Contains(s, "\n") {
-		return 0, errors.New("yaml: unterminated opening line")
+		return 0, errors.New("unterminated opening YAML delimiter \"---\"")
 	}
 	// The end of the line of the START marker
-	idxBegEOL := S.Index(s, "\n")
+	idxBegEOL = S.Index(s, "\n")
 	// fmt.Printf("idxBegEOL %d \n", idxBegEOL)
 	// The END marker (can be the very next line!)
-	idxEnd := S.Index(s[idxBegEOL:], "\n---")
+	idxEndHifens = S.Index(s[idxBegEOL:], "\n---")
+	idxEndDots = S.Index(s[idxBegEOL:], "\n...")
 	// If no end marker, reject.
-	if idxEnd == -1 {
-		return 0, errors.New("yaml: bad or missing end marker")
+	if idxEndHifens == -1 && idxEndDots == -1 {
+		return 0, errors.New("bad or missing closing YAML delimiter \"---\" or \"...\"")
+	}
+	// Most common case
+	idxEnd = idxEndHifens
+	// but check for others
+	if idxEndDots != -1 {
+		if idxEndHifens == -1 || idxEndHifens > idxEndDots {
+			idxEnd = idxEndDots
+		}
 	}
 	idxEnd += idxBegEOL
 	// fmt.Printf("idxEnd %d \n", idxEnd)
 
 	// The end of the line of the END marker
-	idxEndEOL := S.Index(s[idxEnd+1:], "\n")
+	idxEndEOL = S.Index(s[idxEnd+1:], "\n")
 	// If no end of line of end-marker, reject.
 	if idxEndEOL == -1 {
-		return 0, errors.New("yaml: unterminated end marker")
+		return 0, errors.New("unterminated closing YAML delimiter")
 	}
 	idxEndEOL += idxEnd + 1
 	// fmt.Printf("idxEndEOL %d \n", idxEndEOL)
 
-	// We now have the index of end of the block.
-	// But if the next line is empty, include it also.
+	// We now have the index of the end of the
+	// block. But as a convenience to callers,
+	// if the next line is empty, include it also.
 	if s[idxEndEOL+1] == '\n' {
 		idxEndEOL++
 	}
-	// Let's VERIFY.
-	// println("D=> BEG YAML \n", s[:idxEndEOL], "D=> END YAML")
-
 	return idxEndEOL, nil
 }
 
+// TrimYamlMetadataDelimiters supplies a trailing newline.
 func TrimYamlMetadataDelimiters(s string) string {
 	s = S.TrimSpace(s)
 	s = S.TrimPrefix(s, "---")
+	s = S.TrimSuffix(s, "...")
 	s = S.TrimSuffix(s, "---")
 	return S.TrimSpace(s) + "\n"
 }
