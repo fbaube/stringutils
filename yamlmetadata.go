@@ -12,7 +12,7 @@ import (
 /*
 YamlMeta extracts metadata per LwDITA, see
 https://github.com/jelovirt/org.lwdita/wiki/Syntax-reference
-Fields expected to be useful:
+The following fields are expected to be useful:
 
 type YamlMeta struct {
   // LwDITA...
@@ -32,7 +32,7 @@ type YamlMeta struct {
   Date       string
   ParsedDate time.Time
   // Others ...
-	ID    string
+  ID string
 }
 */
 
@@ -72,19 +72,20 @@ func GetYamlMetadataAsPropSet(instr string) (PropSet, error) {
 	return ps, nil
 }
 
-// https://pandoc.org/MANUAL.html#extension-yaml_metadata_block
-// A YAML metadata block is delimited by a line of three hyphens (---) at the
-// top and a line of three hyphens (---) or three dots (...) at the bottom.
-// A YAML metadata block not at the beginning must be preceded by a blank line.
-// All string scalars will be interpreted as Markdown. Fields with names ending
-// in an underscore will be ignored by pandoc. (They may be given a role by
-// external processors.) Field names must not be interpretable as YAML numbers
-// or boolean values (e.g. yes, True, and 15 cannot be used as field names).
-// A document may contain multiple metadata blocks. If two metadata blocks
-// attempt to set the same field, the value from the second block will be taken.
+// https://pandoc.org/MANUAL.html#extension-yaml_metadata_block ::
+// A YAML metadata block is delimited by a line of three hyphens (---)
+// at the top and a line of three hyphens (---) or three dots (...)
+// at the bottom. A YAML metadata block not at the beginning must be
+// preceded by a blank line. All string scalars will be interpreted as
+// Markdown. Fields with names ending in an underscore will be ignored
+// by pandoc. (They may be given a role by external processors.) Field
+// names must not be interpretable as YAML numbers or boolean values
+// (e.g. yes, True, and 15 cannot be used as field names). A document
+// may contain multiple metadata blocks. If two metadata blocks attempt
+// to set the same field, the value from the second block will be taken.
 
-// ParseYamlMetadata tries to extract a YAML metadata block (YMB) - as a map -
-// from the (start of the) input string `instring`.
+// ParseYamlMetadata tries to extract a YAML metadata block (YMB) -
+// as a map - from the (start of the) input string `instring`.
 //
 // Only simple fields are supported - no tree structure.
 //
