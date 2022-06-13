@@ -1,6 +1,4 @@
-// Package stringutils does string things.
-//
-// Some files use Markdown, so `godoc2md` will work on 'em.
+// Package stringutils does string things, and does not use any logging.
 //
 // This package does not use regular expressions anywhere. Also,
 // this package accommodates XML string quoting conventions by
