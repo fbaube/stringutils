@@ -151,7 +151,8 @@ func YamlMetadataHeaderRange(s string) (int, error) {
 	// We now have the index of the end of the
 	// block. But as a convenience to callers,
 	// if the next line is empty, include it also.
-	if s[idxEndEOL+1] == '\n' {
+	// But beware of overrunning the end.
+	if (idxEndEOL+1) >= len(s) || s[idxEndEOL+1] == '\n' {
 		idxEndEOL++
 	}
 	return idxEndEOL, nil
