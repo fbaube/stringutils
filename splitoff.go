@@ -29,17 +29,12 @@ func SplitOffQuotedToken(in string) (string, string, error) {
 		return in, "", fmt.Errorf("No initial quote char in |%s|", in)
 	}
 	rest := in[1:]
-	i := S.Index(rest, quoteChar)
-	if i == -1 {
-		return in, "", fmt.Errorf("Unmatched initial quote char in |%s|", in)
-	}
-	s1 := in[1 : i+1]
-	var s2 string
-	if len(rest) == i || len(rest) == i+1 {
-		s2 = ""
-	} else {
-		s2 = S.TrimSpace(in[i+3:])
+
+	bfr, afr, isMatched := S.Cut(rest, quoteChar)
+	if !isMatched {
+		return in, "", fmt.Errorf(
+			"Unmatched initial quote char in |%s|", in)
 	}
 	// fmt.Printf("PUBLIC >>> S1|%s|S2|%s| \n", s1, s2)
-	return s1, s2, nil
+	return bfr, S.TrimSpace(afr), nil
 }
