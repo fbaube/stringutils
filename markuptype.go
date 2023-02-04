@@ -25,6 +25,9 @@ const (
 )
 
 func (MUT MarkupType) LongForm() string {
+	if len(MUT) < 3 || len(MUT) > 4 {
+		panic("Bad MU_type: " + MUT)
+	}
 	switch MUT {
 	case MU_type_XML:
 		return "XML"
