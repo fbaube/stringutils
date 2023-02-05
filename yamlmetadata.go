@@ -9,38 +9,10 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
-/*
-YamlMeta extracts metadata per LwDITA, see
-https://github.com/jelovirt/org.lwdita/wiki/Syntax-reference
-The following fields are expected to be useful:
-
-type YamlMeta struct {
-  // LwDITA...
-  Author      string
-  Source      string
-  Publisher   string
-  Permissions string
-  Audience    string
-  Category    string
-  Keyword     string
-  Resourceid  string
-  // Bloggenator...
-  // type Meta struct {
-  Title      string
-  Short      string
-  Tags       []string
-  Date       string
-  ParsedDate time.Time
-  // Others ...
-  ID string
-}
-*/
-
 // GetYamlMetadataAsPropSet is a convenience function. It assume that all
 // the metadata values are top-level and can be represented as strings.
 // The metadata is unmarshalled into a map (i.e. a `PropSet`), so variables
 // can be freely added, but there is no checking for required fields.
-//
 func GetYamlMetadataAsPropSet(instr string) (PropSet, error) {
 	propmap, e := ParseYamlMetadata(instr)
 	if e != nil {
@@ -88,7 +60,6 @@ func GetYamlMetadataAsPropSet(instr string) (PropSet, error) {
 // as a map - from the (start of the) input string `instring`.
 //
 // Only simple fields are supported - no tree structure.
-//
 func ParseYamlMetadata(instr string) (map[string]interface{}, error) {
 	// func Unmarshal(in []byte, out interface{}) (err error) <br/>
 	// Unmarshal decodes the first document found within the byte
