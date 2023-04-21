@@ -2,13 +2,15 @@ package stringutils
 
 // MarkupType specifies the top-level, most general
 // type of content in a content entity: XML, HTML,
-// Markdown (or BIN: binary, "none of the above").
-// Note that XML is in practice a broad classification
-// and HTML "obviously" falls within it; however HTML
-// is separated out here because HTML5 doesn't have a
+// Markdown, or BIN (binary, "none of the above").
+// Note that altho HTML is "obviously" XML, HTML is
+// separated out here because HTML5 doesn't have a
 // really good definition (like DTD or XSD), and also
-// because HTML in general has dedicated parsers that
-// are quite a bit more liberal than XML parsers.
+// because HTML has a dedicated parser in the Go std
+// lib that is quite a bit more liberal than the XML
+// parser.
+//
+// MarkupType implements interface [stringutils.Stringser].
 //
 // NOTE that for source code that uses this enum, files
 // can be named "*_xml.go", "*_html.go", "*_mkdn.go".
@@ -24,11 +26,15 @@ const (
 	MU_type_BIN  = "BIN"  // Opaque
 )
 
-func (MUT MarkupType) LongForm() string {
-	if len(MUT) < 3 || len(MUT) > 4 {
-		panic("Bad MU_type: " + MUT)
+func (mt MarkupType) Echo() string {
+	return string(mt)
+}
+
+func (mt MarkupType) Info() string {
+	if len(mt) < 3 || len(mt) > 4 {
+		panic("Bad MU_type: " + mt)
 	}
-	switch MUT {
+	switch mt {
 	case MU_type_XML:
 		return "XML"
 	case MU_type_HTML:
@@ -40,5 +46,9 @@ func (MUT MarkupType) LongForm() string {
 	case MU_type_UNK:
 		return "Unknown"
 	}
-	return string(MUT)
+	return string(mt)
+}
+
+func (mt MarkupType) Debug() string {
+	return mt.Info()
 }
