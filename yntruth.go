@@ -5,8 +5,10 @@ package stringutils
 // They are different case to improve readability, *duh!*
 //
 // In a table, it can be even more readable to use "-" for false.
-// People who fill tables with `Y` and `N` defeat simple visual
-// scanning and are idiots.
+// 
+// People who fill tables with `Y` and `N` (or 'y' and 'n')
+// defeat simple visual scanning and are idiots.
+// .
 func Yn(b bool) string {
 	if b {
 		return "Y"

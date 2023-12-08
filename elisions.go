@@ -4,8 +4,7 @@ import (
 	"os"
 	FP "path/filepath"
 	S "strings"
-
-	WU "github.com/fbaube/wasmutils"
+	// WU "github.com/fbaube/wasmutils"
 )
 
 // A token nod to Windoze compatibility.
@@ -142,11 +141,13 @@ func Tildotted(s string) string {
 
 func init() {
 	var e error
+	/*
 	if WU.IsWasm() {
 		userHomeDir = "?"
 		currentWorkingDir = "."
 		return
 	}
+	*/
 	userHomeDir, e = os.UserHomeDir()
 	if e != nil {
 		println("==> ERROR: Cannot determine current user's home directory")
