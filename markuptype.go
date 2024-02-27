@@ -24,6 +24,7 @@ const (
 	MU_type_HTML = "HTML" // Assumed to be HTML5
 	MU_type_MKDN = "MKDN" // Assumed to be CommonMark (or GFM?)
 	MU_type_BIN  = "BIN"  // Opaque
+	MU_type_SQL  = "SQL"  // Hey, why not eh 
 )
 
 func (mt MarkupType) Echo() string {
@@ -43,6 +44,8 @@ func (mt MarkupType) Info() string {
 		return "Markdown"
 	case MU_type_BIN:
 		return "Binary"
+	case MU_type_SQL:
+		return "SQL"
 	case MU_type_UNK:
 		return "Unknown"
 	}
