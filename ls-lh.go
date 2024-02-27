@@ -31,7 +31,7 @@ func LS_lh(fi fs.FileInfo, optPath string) string {
 	if fi.IsDir() && !S.HasSuffix(optPath, "/") {
 	   optPath += "/" // Slash = "/"
 	   }
-	return fmt.Sprintf("%s %4s  %s  %s",
+	return fmt.Sprintf("%s  %4s  %s  %s",
 		fi.Mode(), HB.SizeLS(int(fi.Size())), 
 		fi.ModTime().UTC().Format(lsTimeFormat),
 		optPath) // ,optSlash)
