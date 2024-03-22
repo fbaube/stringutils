@@ -40,7 +40,7 @@ const (
 	// formally defined as "ia/has link(s) to other stuff" 
 	// - i.e. it is a directory or symbolic link. Used by
 	// [ctoken.TypedRaw].
-	MU_type_DIRLIKE = "Dirlike" 
+	MU_type_DIRLIKE = "DIRLIKE" 
 )
 
 func (mt MarkupType) Echo() string {
