@@ -6,9 +6,11 @@ import (
 
 // FilterStringsBySuffix takes a list of filenames and filters
 // out those whose file extensions are not in the list that is
-// passed in. NOTE! (1) No periods on the okay file extensions.
-// (2) The comparison is case-INsensitive. 
-
+// passed in. NOTE:
+//  - No periods on the okay file extensions.
+//  - The comparison is case-INsensitive. 
+//  - This func is not currently used anywhere (2025.01), 
+//    but it's useful so leave it in anyways. 
 func FilterStringsBySuffix(inputs []string,
 	okayExts []string) (OKoutputs []string) {
 	if okayExts == nil || len(okayExts) == 0 {

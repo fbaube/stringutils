@@ -7,7 +7,7 @@ import (
 	// WU "github.com/fbaube/wasmutils"
 )
 
-// A token nod to Windoze compatibility.
+// PathSep is a token nod to Windoze compatibility.
 const PathSep = string(os.PathSeparator)
 
 // These should end in the path separator!
@@ -61,6 +61,8 @@ func ElideHomeDir(s string) string {
 
 }
 
+// ElideCWD has effects that are session-specific, so 
+// it should only be used to make better user messages.
 func ElideCWD(s string) string {
 	if s == "" || s == currentWorkingDir ||
 		(s+PathSep) == currentWorkingDir {
@@ -95,7 +97,9 @@ func ElideCWD(s string) string {
 	return s
 }
 
-// Tildotted shortens a filepath by substituting "~" or ".".
+// Tildotted shortens a filepath by ediding the current
+// user's home directory, or the current working directory,
+// by eliding "~" or "." respectively. 
 func Tildotted(s string) string {
 	// If it's missing, use assumed/default...
 	if s == "" {

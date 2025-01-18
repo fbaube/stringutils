@@ -8,7 +8,10 @@ import(
 func bad(ss []string) bool {
      	return ss == nil || len(ss) == 0
 }
-	
+
+// FilterStringList filters out filenames that match simple patterns
+// (prefixes, "midfixes", suffixes). We provide this instead of some
+// regex nonsense. 
 func FilterStringList(inlist, prefixes, midfixes, suffixes []string) []string {
      	if bad(inlist) { return inlist }
 	if bad(prefixes) && bad(midfixes) &&

@@ -5,7 +5,7 @@ import (
 	"github.com/fatih/color"
 )
 
-// Functions that are created via the library.
+// These are all functions that are created via the imported library [color].
 var Rbg, Ybg, Gbg, Rfg, Yfg, Gfg func(...interface{}) string
 var Wfg, Blubg, Cyanbg func(...interface{}) string
 
