@@ -2,6 +2,8 @@ package stringutils
 
 import S "strings"
 
+// MakeCSV returns the string slice as a CSV string.
+// A final (comma + space) is omitted.
 func MakeCSV(ss []string) string {
      if ss == nil || len(ss) == 0 {
      	return ""
@@ -18,6 +20,7 @@ func MakeCSV(ss []string) string {
      return s[0:len(s)-2]
 }
 
+// MakeQuotedCSV places double-quotes around the output of [MakeCSV].
 func MakeQuotedCSV(ss []string) string {
      if ss == nil {
      	return ""

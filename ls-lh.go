@@ -21,6 +21,9 @@ var lsTimeFormat = "_2 Jan 2006 15:04"
 // LS_lh generates a file listing string like for "ls -l -h".
 // If optPath is "" or "." then the file base name is taken 
 // from the FileInfo argument.
+//
+// NOTE that this func is not currently used, but it's left
+// here anyways for its potential usabililty.
 // . 
 func LS_lh(fi fs.FileInfo, optPath string) string {
         if fi == nil { return "" }
