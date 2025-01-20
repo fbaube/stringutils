@@ -5,14 +5,14 @@ import (
 	S "strings"
 )
 
-// IsXmlQuote checks whether the string is either one single quote
-// *or* one double quote.
+// IsXmlQuote checks whether the string is either 
+// one single quote or one double quote.
 func IsXmlQuote(s string) bool {
 	return s == "\"" || s == "'"
 }
 
-// IsXmlQuoted checks whether the string is surrounded by either
-// single quotes *or* double quotes.
+// IsXmlQuoted checks whether the string is surrounded 
+// by either single quotes or double quotes.
 func IsXmlQuoted(txt string) bool {
 	L := len(txt)
 	if L < 2 {
@@ -25,8 +25,8 @@ func IsXmlQuoted(txt string) bool {
 	return (char0 == string(txt[L-1]))
 }
 
-// MustXmlUnquote removes either paired single quotes or paired double
-// quotes. It panics if neither is found.
+// MustXmlUnquote removes either paired single quotes or
+// paired double quotes. It panics if neither is found.
 func MustXmlUnquote(txt string) string {
 	if !IsXmlQuoted(txt) {
 		panic(fmt.Sprintf("stringutils.MustXmlUnquote<%s>", txt))
