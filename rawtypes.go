@@ -17,6 +17,8 @@ const(
 	Raw_type_MKDN Raw_type = Raw_type(D.SFT_MTEXT)
 	// Raw_type_SQL is, well, hey why not eh
 	Raw_type_SQL  Raw_type = Raw_type(D.SFT_QTEXT)
+	// Raw_type_NIL is none (or too little) to figure out what kind
+	Raw_type_NIL  Raw_type = Raw_type(D.SFT_0TEXT)
 	// Raw_type_DIRLIKE is a hack placeholder for consistent 
         // handling (because of consistent problems in code): 
         // IsDirlike is a more general case of IsDir() - 

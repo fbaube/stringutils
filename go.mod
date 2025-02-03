@@ -5,7 +5,7 @@ go 1.23
 require (
 	github.com/fatih/color v1.18.0
 	github.com/fbaube/dsmnd v0.0.0-20250111125333-2b80f885bfc2
-	github.com/fbaube/humanbytes v0.0.0-20240227103335-a0b11501ad0e
+	github.com/fbaube/humanbytes v0.0.0-20250119091546-d58fbfdd444c
 	gopkg.in/yaml.v2 v2.4.0
 )
 

@@ -6,6 +6,8 @@ github.com/fbaube/dsmnd v0.0.0-20250111125333-2b80f885bfc2 h1:MP/O0PUVCGgNmKvKmM
 github.com/fbaube/dsmnd v0.0.0-20250111125333-2b80f885bfc2/go.mod h1:YVvG9X9nrUoOtk9DEkyyk6/0vdfNcDYHNWgBwGHbcUE=
 github.com/fbaube/humanbytes v0.0.0-20240227103335-a0b11501ad0e h1:2lRZ3QxDYaZ9F7RXLSL3zugdmeQTGOrRddBk+RVTRY0=
 github.com/fbaube/humanbytes v0.0.0-20240227103335-a0b11501ad0e/go.mod h1:WUS3tn4t+FViNsl4VOqYiV51cJNIIeMjLI9fOfm+Ug8=
+github.com/fbaube/humanbytes v0.0.0-20250119091546-d58fbfdd444c h1:k6VDhhlL+FI8nrBAwQDoXyPEKN+MuOtSMaDJfzwnA7E=
+github.com/fbaube/humanbytes v0.0.0-20250119091546-d58fbfdd444c/go.mod h1:WUS3tn4t+FViNsl4VOqYiV51cJNIIeMjLI9fOfm+Ug8=
 github.com/mattn/go-colorable v0.1.13 h1:fFA4WZxdEF4tXPZVKMLwD8oUnCTTo08duU7wxecdEvA=
 github.com/mattn/go-colorable v0.1.13/go.mod h1:7S9/ev0klgBDR4GtXTXX8a3vIGJpMovkB8vQcUbaXHg=
 github.com/mattn/go-colorable v0.1.14 h1:9A9LHSqF/7dyVVX6g0U9cwm9pG3kP9gSzcuIPHPsaIE=
