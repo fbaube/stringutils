@@ -48,10 +48,12 @@ func NowAsYM() string {
 // PrettifyISO converts
 //  - 2022-02-17T15:22:07+02:00 to
 //  - 2022-02-17/15:22:07/+02
+// TODO: What if GMT offset is negative?
+// .
 func PrettifyISO(in string) string {
 	// func ReplaceAll(s, old, new string) string
 	out := S.ReplaceAll(in, "T", "/")
-	out = S.ReplaceAll(out, "+", "/+") // TODO What if negative ??
+	out = S.ReplaceAll(out, "+", "/+") 
 	out = S.ReplaceAll(out, ":00", "")
 	return out
 }
