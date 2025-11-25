@@ -1,5 +1,7 @@
 package stringutils
 
+import "encoding/json"
+
 func PrettyJson(input string) (string, error) {
         var raw any
         if err := json.Unmarshal([]byte(input), &raw); err != nil {
