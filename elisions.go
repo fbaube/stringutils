@@ -154,12 +154,12 @@ func init() {
 	*/
 	userHomeDir, e = os.UserHomeDir()
 	if e != nil {
-		println("==> ERROR: Cannot determine current user's home directory")
+		println("Cannot determine current user's home directory (Wasm?)")
 		return
 	}
 	currentWorkingDir, e = os.Getwd()
 	if e != nil {
-		println("==> ERROR: Cannot determine current working directory")
+		println("Cannot determine current working directory (Wasm?)")
 		return
 	}
 	if !S.HasSuffix(currentWorkingDir, PathSep) {
